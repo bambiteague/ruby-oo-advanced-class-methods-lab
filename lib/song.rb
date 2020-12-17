@@ -8,12 +8,12 @@ class Song
 
   def save
     self.class.all << self
+    self
   end
 
   def self.create
     song = self.new
     song.save
-    song
   end
   
   def self.new_by_name(name)
@@ -23,18 +23,16 @@ class Song
   end
   
   def self.create_by_name(name)
-    song = self.new 
-    song.name = name
-    @@all << song
-    song
+    song = self.new_by_name(name)
+    song.save
   end
   
   def self.find_by_name(name)
-    @@all.find{|x| x.name == name}
+    @@all.find{|song| song.name == name}
   end
   
   def self.find_or_create_by_name(name)
-      self.find_by_name(name) || self.create_by_name(name)      # is saying do this(if it is true) or that (if the first thing is not true and the second thing is true
+      self.find_by_name(name) || self.create_by_name(name)  # is saying do this(if it is true) or that (if the first thing is not true and the second thing is true
   end
   
   def self.alphabetical
